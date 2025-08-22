@@ -3,6 +3,10 @@ server:
   address: 0.0.0.0
 
 lavalink:
+  plugins:
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.1.1"
+      snapshot: false
+      
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
@@ -34,6 +38,28 @@ lavalink:
     trackStuckThresholdMs: 10000
     useSeekGhosting: true
 
+plugins:
+  lavasrc:
+    providers:
+      - "scsearch:%QUERY%"
+      - "ytsearch:%QUERY%"
+    sources:
+      spotify: true
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+      flowerytts: false
+      youtube: true
+      soundcloud: true
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID:c4d02b672c154189a2bc9401297873e5}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:5ff525521dba448b9cd6c1638010b783}"
+      countryCode: "US"
+      playlistLoadLimit: 10
+      albumLoadLimit: 10
+    soundcloud:
+      clientId: "iZIs9mchVcX5lhVRyQGGAYlNPVldzAoX"
+
 metrics:
   prometheus:
     enabled: false
@@ -46,8 +72,7 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    com.sedmelluq.discord.lavaplayer.source.soundcloud: DEBUG
-    com.sedmelluq.discord.lavaplayer.source.youtube: DEBUG
+    com.github.topi314.lavasrc: INFO
   logback:
     rollingpolicy:
       max-file-size: 25MB
