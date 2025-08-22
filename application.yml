@@ -3,10 +3,15 @@ server:
   address: 0.0.0.0
 
 lavalink:
+  plugins:
+    # Using a different plugin that handles YouTube better
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.7.2"
+      repository: "https://maven.lavalink.dev/releases"
+
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: true
+      youtube: false  # Disabled in favor of plugin
       bandcamp: true
       soundcloud: true
       twitch: true
@@ -18,9 +23,21 @@ lavalink:
     frameBufferDurationMs: 5000
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
-    youtubeSearchEnabled: true
+    youtubeSearchEnabled: false  # Handled by plugin
     soundcloudSearchEnabled: true
     gc-warnings: false
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - MUSIC
+      - ANDROID_TESTSUITE
+      - WEB
+      - TVHTML5EMBEDDED
 
 metrics:
   prometheus:
@@ -33,3 +50,4 @@ logging:
   level:
     root: INFO
     lavalink: INFO
+    dev.lavalink.youtube: DEBUG
