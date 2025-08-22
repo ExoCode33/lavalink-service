@@ -1,13 +1,5 @@
 FROM ghcr.io/lavalink-devs/lavalink:4.0.8
 
-# Create plugins directory
-RUN mkdir -p /opt/Lavalink/plugins
-
-# Download the CORRECT YouTube plugin version for Lavalink 4.0.8
-# Using version 1.5.2 which is confirmed compatible
-RUN wget -O /opt/Lavalink/plugins/youtube-plugin.jar \
-    https://github.com/lavalink-devs/youtube-source/releases/download/1.5.2/youtube-plugin-1.5.2.jar
-
 # Copy configuration
 COPY application.yml /opt/Lavalink/application.yml
 
