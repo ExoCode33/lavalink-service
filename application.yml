@@ -1,27 +1,14 @@
 server:
   port: ${SERVER_PORT:2333}
   address: 0.0.0.0
-  http2:
-    enabled: false # Disable HTTP/2 for better compatibility
 
-spring:
-  main:
-    banner-mode: log
-    
 lavalink:
-  plugins:
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
-      snapshot: false
-    - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
-      snapshot: false
-      
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: false # Disable to prioritize other sources
-      youtube-music: false
-      soundcloud: true # Keep SoundCloud enabled
+      youtube: true
       bandcamp: true
+      soundcloud: true
       twitch: false
       vimeo: false
       http: true
@@ -41,8 +28,8 @@ lavalink:
     frameBufferDurationMs: 5000
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
-    youtubeSearchEnabled: false # Disable YouTube search
-    soundcloudSearchEnabled: true # Enable SoundCloud search
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
     gc-warnings: false
     trackStuckThresholdMs: 10000
     useSeekGhosting: true
@@ -50,29 +37,28 @@ lavalink:
 plugins:
   lavasrc:
     providers:
-      - "scsearch:%ISRC%" # ISRC provider for SoundCloud
-      - "scsearch:%QUERY%" # Direct SoundCloud search
-      - "ytsearch:\"%ISRC%\"" # Fallback to YouTube if needed
-      - "ytsearch:%QUERY%" # Fallback YouTube search
+      - "scsearch:%QUERY%"
+      - "ytsearch:%QUERY%"
+      - "ytmsearch:%QUERY%"
     sources:
-      soundcloud: true
-      spotify: false # Disable if no credentials
-      applemusic: false # Disable if no credentials
-      deezer: false # Disable if no credentials
+      spotify: true
+      applemusic: false
+      deezer: false
       yandexmusic: false
       flowerytts: false
-      youtube: false # Disable YouTube to force SoundCloud
-    soundcloud:
-      clientId: "iZIs9mchVcX5lhVRyQGGAYlNPVldzAoX" # Public SoundCloud client ID
-      countryCode: "${SOUNDCLOUD_COUNTRY_CODE:US}"
-      playlistLoadLimit: 200
-      searchMaxResults: 10
+      youtube: true
+      soundcloud: true
     spotify:
-      clientId: "${SPOTIFY_CLIENT_ID:}"
-      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
+      clientId: "${SPOTIFY_CLIENT_ID:c4d02b672c154189a2bc9401297873e5}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:5ff525521dba448b9cd6c1638010b783}"
       countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
       playlistLoadLimit: 10
       albumLoadLimit: 10
+    soundcloud:
+      clientId: "iZIs9mchVcX5lhVRyQGGAYlNPVldzAoX"
+      countryCode: "${SOUNDCLOUD_COUNTRY_CODE:US}"
+      playlistLoadLimit: 200
+      searchMaxResults: 10
 
 metrics:
   prometheus:
@@ -86,8 +72,6 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    com.sedmelluq.discord.lavaplayer.source.soundcloud: DEBUG # Debug SoundCloud specifically
-    com.github.topi314.lavasrc: DEBUG # Debug lavasrc plugin
   logback:
     rollingpolicy:
       max-file-size: 25MB
