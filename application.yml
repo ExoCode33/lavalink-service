@@ -7,7 +7,7 @@ lavalink:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
       youtube: false
-      bandcamp: false
+      bandcamp: false  
       soundcloud: false
       twitch: false
       vimeo: false
@@ -33,6 +33,12 @@ lavalink:
     soundcloudSearchEnabled: false
     gc-warnings: false
     useSeekGhosting: true
+    # Add HTTP streaming configuration
+    httpConfig:
+      proxyHost: ""
+      proxyPort: 0
+      proxyUser: ""
+      proxyPassword: ""
 
 metrics:
   prometheus:
@@ -46,6 +52,7 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
+    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
   logback:
     rollingpolicy:
       max-file-size: 25MB
