@@ -3,11 +3,15 @@ server:
   address: 0.0.0.0
 
 lavalink:
+  plugins:
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.5.2"
+      repository: "https://maven.lavalink.dev/releases"
+
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      # Audio sources - enable what you need
-      youtube: true
+      # Disable deprecated sources, use plugins instead
+      youtube: false
       bandcamp: true
       soundcloud: true
       twitch: false
@@ -31,42 +35,26 @@ lavalink:
     trackStuckThresholdMs: 10000
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
-    youtubeSearchEnabled: true
+    youtubeSearchEnabled: false  # Handled by plugin
     soundcloudSearchEnabled: true
     gc-warnings: false
-    ratelimit:
-      ipBlocks: []
-      excludedIps: []
-      strategy: "RotateOnBan"
-      searchTriggersFail: true
-      retryLimit: -1
-    youtubeConfig:
-      email: ""
-      password: ""
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
 
 metrics:
   prometheus:
     enabled: false
-    endpoint: /metrics
 
 sentry:
   dsn: ""
-  environment: ""
 
 logging:
   level:
     root: INFO
     lavalink: INFO
-
-  request:
-    enabled: true
-    includeClientInfo: true
-    includeHeaders: false
-    includeQueryString: true
-    includePayload: true
-    maxPayloadLength: 10000
-
-  logback:
-    rollingpolicy:
-      max-file-size: 25MB
-      max-history: 8
+    com.sedmelluq.discord.lavaplayer: INFO
