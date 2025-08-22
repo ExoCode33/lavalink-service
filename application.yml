@@ -4,13 +4,15 @@ server:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.7.2"
+    # Using the correct dependency format for YouTube plugin 1.5.2
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.5.2"
       repository: "https://maven.lavalink.dev/releases"
       
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: false      # Disable built-in YouTube (use plugin instead)
+      # IMPORTANT: Disable built-in YouTube source when using the plugin
+      youtube: false
       bandcamp: true
       soundcloud: true
       twitch: true
@@ -38,13 +40,22 @@ lavalink:
     gc-warnings: false
     useSeekGhosting: true
 
+# YouTube plugin configuration - this is the critical part
 plugins:
   youtube:
     enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    # These clients are confirmed working as of the search results
     clients:
       - MUSIC
       - WEB
       - TVHTML5EMBEDDED
+      - ANDROID_TESTSUITE
+    # Disable OAuth initially to avoid complexity
+    oauth:
+      enabled: false
 
 metrics:
   prometheus:
@@ -57,4 +68,9 @@ logging:
   level:
     root: INFO
     lavalink: INFO
-    dev.lavalink.youtube: DEBUG
+    com.sedmelluq.discord.lavaplayer: INFO
+    dev.lavalink.youtube: DEBUG  # This will help debug YouTube issues
+  logback:
+    rollingpolicy:
+      max-file-size: 25MB
+      max-history: 8
