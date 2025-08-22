@@ -4,13 +4,13 @@ server:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.5.2"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.5"
       repository: "https://maven.lavalink.dev/releases"
       
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: false      # Disable deprecated built-in YouTube source
+      youtube: false
       bandcamp: true
       soundcloud: true
       twitch: true
