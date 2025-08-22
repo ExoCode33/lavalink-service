@@ -1,12 +1,5 @@
 FROM ghcr.io/lavalink-devs/lavalink:4.0.8
 
-# Create plugins directory
-RUN mkdir -p /opt/Lavalink/plugins
-
-# Download COMPATIBLE lavasrc plugin for Lavalink 4.0.8
-RUN wget -O /opt/Lavalink/plugins/lavasrc.jar \
-    https://github.com/topi314/LavaSrc/releases/download/4.1.1/lavasrc-plugin-4.1.1.jar
-
 # Copy configuration
 COPY application.yml /opt/Lavalink/application.yml
 
