@@ -1,6 +1,10 @@
 server:
   port: ${SERVER_PORT:2333}
   address: 0.0.0.0
+  ssl:
+    enabled: false
+  # Railway handles SSL termination at the proxy level
+  # Internal traffic remains HTTP
 
 lavalink:
   server:
@@ -9,14 +13,50 @@ lavalink:
       youtube: true
       bandcamp: true
       soundcloud: true
+      twitch: true
+      vimeo: true
       http: true
       local: false
+    filters:
+      volume: true
+      equalizer: true
+      karaoke: true
+      timescale: true
+      tremolo: true
+      vibrato: true
+      distortion: true
+      rotation: true
+      channelMix: true
+      lowPass: true
+    bufferDurationMs: 400
+    frameBufferDurationMs: 5000
+    trackStuckThresholdMs: 10000
+    youtubePlaylistLoadLimit: 6
+    playerUpdateInterval: 5
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+    gc-warnings: false
+    useSeekGhosting: true
+    # Increased timeouts for Railway's network latency
+    httpConfig:
+      requestTimeout: 30000
+      maxConnections: 20
+      maxConnectionsPerRoute: 10
 
 metrics:
   prometheus:
     enabled: false
 
+sentry:
+  dsn: ""
+
 logging:
   level:
     root: INFO
     lavalink: INFO
+    com.sedmelluq.discord.lavaplayer: INFO
+    com.sedmelluq.discord.lavaplayer.source.youtube: WARN
+  logback:
+    rollingpolicy:
+      max-file-size: 25MB
+      max-history: 8
