@@ -27,7 +27,6 @@ lavalink:
 
 plugins:
   lavasrc:
-    providers: # This is the key fix - remove the custom providers
     sources:
       spotify: true
       applemusic: false
