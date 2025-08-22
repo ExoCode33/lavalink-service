@@ -33,7 +33,6 @@ lavalink:
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
     trackStuckThresholdMs: 10000
-    youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
     youtubeSearchEnabled: false  # Handled by plugin
     soundcloudSearchEnabled: true
@@ -44,12 +43,16 @@ lavalink:
       strategy: "RotateOnBan"
       searchTriggersFail: true
       retryLimit: -1
-    # HTTP configuration for radio streams
+    # Enhanced HTTP configuration for radio streams like DI.FM
     httpConfig:
       proxyHost: ""
       proxyPort: 0
       proxyUser: ""
       proxyPassword: ""
+      # Add timeout configurations for better HTTP stream handling
+      connectTimeoutMs: 10000     # Increased for radio streams
+      connectionRequestTimeoutMs: 10000
+      socketTimeoutMs: 30000      # Increased for streaming
     youtubeConfig:
       email: ""
       password: ""
@@ -80,7 +83,7 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.http: INFO  # Changed to INFO for HTTP debugging
 
   request:
     enabled: true
