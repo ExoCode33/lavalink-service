@@ -2,92 +2,26 @@ server:
   port: 2333
   address: 0.0.0.0
 
-spring:
-  main:
-    banner-mode: log
-  datasource:
-    jdbc-url: jdbc:h2:mem:lavalink_db
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: ""
-
 lavalink:
-  plugins:
-    # Compatible LavaSrc version for Lavalink 4.0.8
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.8"
-      repository: "https://maven.topi.wtf/releases"
-    # YouTube Source plugin (required by LavaSrc)
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.7.2"
-      repository: "https://maven.lavalink.dev/releases"
-
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      # Disable built-in YouTube (we'll use the plugin)
-      youtube: false
+      youtube: true
       bandcamp: true
       soundcloud: true
       twitch: true
       vimeo: true
       http: true
       local: false
-    filters:
-      volume: true
-      equalizer: true
-      karaoke: true
-      timescale: true
-      tremolo: true
-      vibrato: true
-      distortion: true
-      rotation: true
-      channelMix: true
-      lowPass: true
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
-    opusEncodingQuality: 10
-    resamplingQuality: HIGH
-    trackStuckThresholdMs: 10000
-    useSeekGhosting: true
-    youtubePlaylistLoadLimit: 100
+    youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
-
-plugins:
-  # YouTube Source Plugin Configuration
-  youtube:
-    enabled: true
-    allowSearch: true
-    allowDirectVideoIds: true
-    allowDirectPlaylistIds: true
-    clients:
-      - MUSIC
-      - WEB
-      - ANDROID_TESTSUITE
-      - TVHTML5EMBEDDED
-
-  # LavaSrc Plugin Configuration
-  lavasrc:
-    providers:
-      - "ytsearch:\"%ISRC%\""
-      - "ytsearch:%QUERY%"
-      - "scsearch:%QUERY%"
-    sources:
-      spotify: true
-      applemusic: false
-      deezer: false
-      yandexmusic: false
-      flowerytts: false
-      youtube: true
-    spotify:
-      clientId: "${SPOTIFY_CLIENT_ID:}"
-      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
-      countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
-      playlistLoadLimit: 6
-      albumLoadLimit: 6
-    youtube:
-      countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
 
 metrics:
   prometheus:
@@ -102,8 +36,9 @@ logging:
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: DEBUG
     com.sedmelluq.discord.lavaplayer.source: DEBUG
-    dev.lavalink.youtube: DEBUG
-    com.github.topi314.lavasrc: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.youtube: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.soundcloud: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.bandcamp: DEBUG
   logback:
     rollingpolicy:
       max-file-size: 25MB
