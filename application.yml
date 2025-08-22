@@ -6,13 +6,14 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      # CRITICAL: HTTP source must be enabled for radio streams
-      http: true
+      # Audio sources - enable what you need
       youtube: true
-      soundcloud: true
       bandcamp: true
+      soundcloud: true
       twitch: false
       vimeo: false
+      mixer: false
+      http: true
       local: false
     filters:
       volume: true
@@ -33,32 +34,38 @@ lavalink:
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
-    useSeekGhosting: true
-    # HTTP configuration for radio streams
-    httpConfig:
-      proxyHost: ""
-      proxyPort: 0
-      proxyUser: ""
-      proxyPassword: ""
+    ratelimit:
+      ipBlocks: []
+      excludedIps: []
+      strategy: "RotateOnBan"
+      searchTriggersFail: true
+      retryLimit: -1
+    youtubeConfig:
+      email: ""
+      password: ""
 
-# Plugins configuration
-plugins: {}
-
-# Metrics
 metrics:
   prometheus:
     enabled: false
+    endpoint: /metrics
 
 sentry:
   dsn: ""
+  environment: ""
 
-# Enhanced logging to debug HTTP issues
 logging:
   level:
     root: INFO
-    lavalink: DEBUG
-    com.sedmelluq.discord.lavaplayer: DEBUG
-    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
+    lavalink: INFO
+
+  request:
+    enabled: true
+    includeClientInfo: true
+    includeHeaders: false
+    includeQueryString: true
+    includePayload: true
+    maxPayloadLength: 10000
+
   logback:
     rollingpolicy:
       max-file-size: 25MB
