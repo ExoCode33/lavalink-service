@@ -3,73 +3,20 @@ server:
   address: 0.0.0.0
 
 lavalink:
-  plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.5"
-      repository: "https://maven.lavalink.dev/releases"
-      
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
       youtube: false
-      bandcamp: true
-      soundcloud: true
-      twitch: true
-      vimeo: true
+      bandcamp: false
+      soundcloud: false
       http: true
       local: false
-    filters:
-      volume: true
-      equalizer: true
-      karaoke: true
-      timescale: true
-      tremolo: true
-      vibrato: true
-      distortion: true
-      rotation: true
-      channelMix: true
-      lowPass: true
-    bufferDurationMs: 400
-    frameBufferDurationMs: 5000
-    trackStuckThresholdMs: 10000
-    youtubePlaylistLoadLimit: 6
-    playerUpdateInterval: 5
-    youtubeSearchEnabled: true
-    soundcloudSearchEnabled: true
-    gc-warnings: false
-    useSeekGhosting: true
-    httpConfig:
-      requestTimeout: 30000
-      maxConnections: 20
-      maxConnectionsPerRoute: 10
-
-plugins:
-  youtube:
-    enabled: true
-    allowSearch: true
-    allowDirectVideoIds: true
-    allowDirectPlaylistIds: true
-    clients:
-      - MUSIC
-      - WEB
-      - TVHTML5EMBEDDED
-      - ANDROID_TESTSUITE
-    oauth:
-      enabled: false
 
 metrics:
   prometheus:
     enabled: false
 
-sentry:
-  dsn: ""
-
 logging:
   level:
     root: INFO
     lavalink: INFO
-    com.sedmelluq.discord.lavaplayer: INFO
-    dev.lavalink.youtube: DEBUG
-  logback:
-    rollingpolicy:
-      max-file-size: 25MB
-      max-history: 8
