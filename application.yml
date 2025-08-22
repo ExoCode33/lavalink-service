@@ -24,15 +24,25 @@ lavalink:
       rotation: true
       channelMix: true
       lowPass: true
+    # ✅ INCREASED TIMEOUTS to fix hanging searches
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
+    trackStuckThresholdMs: 30000      # ✅ INCREASED: 30 seconds instead of 10
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
-    trackStuckThresholdMs: 10000
     useSeekGhosting: true
+    # ✅ ADDED: HTTP Client timeout settings
+    httpConfig:
+      requestTimeout: 30000           # ✅ 30 second timeout for HTTP requests
+      maxConnections: 20              # ✅ Max concurrent connections
+      maxConnectionsPerRoute: 10      # ✅ Max connections per route
+    # ✅ ADDED: YouTube specific timeouts
+    youtubeConfig:
+      connectionTimeout: 30000        # ✅ 30 second connection timeout
+      readTimeout: 30000              # ✅ 30 second read timeout
 
 metrics:
   prometheus:
@@ -46,6 +56,7 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
+    com.sedmelluq.discord.lavaplayer.source.youtube: DEBUG  # ✅ ADDED: Debug YouTube issues
   logback:
     rollingpolicy:
       max-file-size: 25MB
