@@ -3,10 +3,6 @@ server:
   address: 0.0.0.0
 
 lavalink:
-  plugins:
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.0"
-      repository: "https://maven.lavalink.dev/releases"
-
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
@@ -24,22 +20,9 @@ lavalink:
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
-
-plugins:
-  lavasrc:
-    sources:
-      spotify: true
-      applemusic: false
-      deezer: false
-      yandexmusic: false
-      youtube: true
-    spotify:
-      clientId: "${SPOTIFY_CLIENT_ID:}"
-      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
-      spDc: "${SPOTIFY_SP_DC:}"
-      countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
-    youtube:
-      countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
+    # Enable more verbose error reporting
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
 
 metrics:
   prometheus:
@@ -51,5 +34,14 @@ sentry:
 logging:
   level:
     root: INFO
-    lavalink: INFO
-    com.github.topi314.lavasrc: DEBUG
+    lavalink: DEBUG
+    # Enable debug for audio sources
+    com.sedmelluq.discord.lavaplayer: DEBUG
+    com.sedmelluq.discord.lavaplayer.source: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.youtube: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.soundcloud: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.bandcamp: DEBUG
+  logback:
+    rollingpolicy:
+      max-file-size: 25MB
+      max-history: 8
