@@ -10,14 +10,14 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      # Disable deprecated sources, use plugins instead
-      youtube: false
+      # Audio sources configuration
+      youtube: false  # Handled by plugin
       bandcamp: true
       soundcloud: true
       twitch: false
       vimeo: false
       mixer: false
-      http: true
+      http: true  # Enable HTTP for radio streams
       local: false
     filters:
       volume: true
@@ -38,6 +38,21 @@ lavalink:
     youtubeSearchEnabled: false  # Handled by plugin
     soundcloudSearchEnabled: true
     gc-warnings: false
+    ratelimit:
+      ipBlocks: []
+      excludedIps: []
+      strategy: "RotateOnBan"
+      searchTriggersFail: true
+      retryLimit: -1
+    # HTTP configuration for radio streams
+    httpConfig:
+      proxyHost: ""
+      proxyPort: 0
+      proxyUser: ""
+      proxyPassword: ""
+    youtubeConfig:
+      email: ""
+      password: ""
 
 plugins:
   youtube:
@@ -45,16 +60,37 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
+    clients:
+      - MUSIC
+      - WEB
+      - ANDROID
+      - TVHTML5EMBEDDED
 
 metrics:
   prometheus:
     enabled: false
+    endpoint: /metrics
 
 sentry:
   dsn: ""
+  environment: ""
 
 logging:
   level:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
+    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
+
+  request:
+    enabled: true
+    includeClientInfo: true
+    includeHeaders: false
+    includeQueryString: true
+    includePayload: true
+    maxPayloadLength: 10000
+
+  logback:
+    rollingpolicy:
+      max-file-size: 25MB
+      max-history: 8
