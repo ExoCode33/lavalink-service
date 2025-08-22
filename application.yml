@@ -11,13 +11,13 @@ lavalink:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
       # Audio sources configuration
-      youtube: false  # Handled by plugin
+      youtube: false  # Disabled - handled by YouTube plugin below
       bandcamp: true
       soundcloud: true
       twitch: false
       vimeo: false
       mixer: false
-      http: true  # Enable HTTP for radio streams
+      http: true  # CRITICAL: Enable HTTP for radio streams (DI.FM, etc.)
       local: false
     filters:
       volume: true
@@ -34,40 +34,54 @@ lavalink:
     frameBufferDurationMs: 5000
     trackStuckThresholdMs: 10000
     playerUpdateInterval: 5
-    youtubeSearchEnabled: false  # Handled by plugin
+    youtubeSearchEnabled: false  # Disabled - handled by YouTube plugin
     soundcloudSearchEnabled: true
     gc-warnings: false
+    
+    # Resume configuration for better reliability
+    resumeKey: "${LAVALINK_RESUME_KEY:uta-dj-bot-railway}"
+    resumeTimeout: ${LAVALINK_RESUME_TIMEOUT:60}
+    
     ratelimit:
       ipBlocks: []
       excludedIps: []
       strategy: "RotateOnBan"
       searchTriggersFail: true
       retryLimit: -1
-    # Enhanced HTTP configuration for radio streams like DI.FM
+      
+    # ENHANCED HTTP configuration for streaming services
     httpConfig:
       proxyHost: ""
       proxyPort: 0
       proxyUser: ""
       proxyPassword: ""
-      # Add timeout configurations for better HTTP stream handling
-      connectTimeoutMs: 10000     # Increased for radio streams
-      connectionRequestTimeoutMs: 10000
-      socketTimeoutMs: 30000      # Increased for streaming
+      # Optimized for streaming services like DI.FM
+      connectTimeoutMs: 20000      # Increased for radio streams
+      connectionRequestTimeoutMs: 20000
+      socketTimeoutMs: 60000       # Increased for continuous streaming
+      maxRedirects: 10             # Allow redirects for radio streams
+      # User agent for better compatibility
+      userAgent: "Lavalink/4.0.8 (https://github.com/lavalink-devs/Lavalink)"
+      
     youtubeConfig:
       email: ""
       password: ""
 
 plugins:
   youtube:
-    enabled: true
+    enabled: ${LAVALINK_PLUGINS_ENABLED:true}
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
+    # Optimized client rotation for better reliability
     clients:
       - MUSIC
       - WEB
-      - ANDROID
+      - ANDROID_TESTSUITE
+      - WEB_REMIX
       - TVHTML5EMBEDDED
+    # Anti-bot detection countermeasures
+    countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
 
 metrics:
   prometheus:
@@ -83,7 +97,10 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    com.sedmelluq.discord.lavaplayer.source.http: INFO  # Changed to INFO for HTTP debugging
+    # Enable DEBUG for HTTP stream troubleshooting
+    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
+    # DI.FM specific logging
+    com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager: DEBUG
 
   request:
     enabled: true
