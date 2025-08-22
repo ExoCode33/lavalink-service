@@ -8,8 +8,6 @@ lavalink:
   plugins:
     - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
       repository: "https://maven.lavalink.dev/releases"
-    - dependency: "com.github.topi314.lavalyrics:lavalyrics-plugin:1.0.0"
-      repository: "https://maven.lavalink.dev/releases"
 
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
@@ -21,7 +19,7 @@ lavalink:
       vimeo: true
       http: true
       local: false
-      spotify: false # Handled by lavasrc plugin instead
+      spotify: false # Handled by lavasrc plugin
     filters:
       volume: true
       equalizer: true
@@ -51,10 +49,8 @@ lavalink:
       searchTriggersFail: true
       retryLimit: -1
     youtubeConfig:
-      email: "" # Leave empty for no login
-      password: "" # Leave empty for no login
-      PAPISID: "" # Optional: Get from browser cookies for better success rate
-      PSID: "" # Optional: Get from browser cookies for better success rate
+      email: ""
+      password: ""
 
 plugins:
   lavasrc:
@@ -64,8 +60,8 @@ plugins:
       - "scsearch:%QUERY%"
     sources:
       spotify: true
-      applemusic: true
-      deezer: true
+      applemusic: false
+      deezer: false
       yandexmusic: false
       flowerytts: false
       youtube: true
@@ -74,34 +70,18 @@ plugins:
       - WEB
       - TVHTML5EMBEDDED
     spotify:
-      clientId: "${SPOTIFY_CLIENT_ID}"
-      clientSecret: "${SPOTIFY_CLIENT_SECRET}"
+      clientId: "${SPOTIFY_CLIENT_ID:}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
       spDc: "${SPOTIFY_SP_DC:}"
       countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
       playlistLoadLimit: 50
       albumLoadLimit: 50
-    applemusic:
-      countryCode: "${APPLE_MUSIC_COUNTRY_CODE:US}"
-      mediaAPIToken: "${APPLE_MUSIC_API_TOKEN:}"
-      playlistLoadLimit: 50
-      albumLoadLimit: 50
-    deezer:
-      masterDecryptionKey: "${DEEZER_MASTER_KEY:}"
-    yandexmusic:
-      accessToken: "${YANDEX_MUSIC_TOKEN:}"
     youtube:
       countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
       clients:
         - MUSIC
         - WEB
         - TVHTML5EMBEDDED
-
-  lavalyrics:
-    sources:
-      spotify: true
-      deezer: true
-      youtube: false
-      yandexMusic: false
 
 metrics:
   prometheus:
