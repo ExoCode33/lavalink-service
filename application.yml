@@ -25,20 +25,6 @@ lavalink:
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
-    
-    # Enhanced YouTube configuration for anti-bot
-    ratelimit:
-      ipBlocks: ["1.0.0.0/8", "127.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "fd00::/8"]
-      excludedIps: ["127.0.0.1", "::1"]
-      strategy: "RotateOnBan"
-      searchTriggersFail: true
-      retryLimit: -1
-      
-    youtubeConfig:
-      email: ""
-      password: ""
-      PAPISID: ""
-      PSID: ""
 
 metrics:
   prometheus:
