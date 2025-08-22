@@ -10,7 +10,7 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: false      # Disable built-in YouTube (we use the plugin instead)
+      youtube: false      # Disable built-in YouTube (use plugin instead)
       bandcamp: true
       soundcloud: true
       twitch: true
@@ -45,11 +45,6 @@ plugins:
       - MUSIC
       - WEB
       - TVHTML5EMBEDDED
-    oauth:
-      enabled: false
-    # Add these to improve success rate
-    searchEnabled: true
-    playlistLoadLimit: 10
 
 metrics:
   prometheus:
@@ -62,9 +57,4 @@ logging:
   level:
     root: INFO
     lavalink: INFO
-    com.sedmelluq.discord.lavaplayer: INFO
     dev.lavalink.youtube: DEBUG
-  logback:
-    rollingpolicy:
-      max-file-size: 25MB
-      max-history: 8
