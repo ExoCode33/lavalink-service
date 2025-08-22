@@ -1,5 +1,5 @@
 [build]
-builder = "docker"
+builder = "DOCKER"
 
 [variables]
 JAVA_VERSION = "17"
