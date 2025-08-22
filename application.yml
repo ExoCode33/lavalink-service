@@ -10,14 +10,14 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      # Audio sources configuration
+      # Audio sources configuration - CRITICAL: HTTP must be enabled
       youtube: false  # Disabled - handled by YouTube plugin below
       bandcamp: true
       soundcloud: true
       twitch: false
       vimeo: false
       mixer: false
-      http: true  # CRITICAL: Enable HTTP for radio streams (DI.FM, etc.)
+      http: true  # ESSENTIAL: Enable HTTP for DI.FM streams
       local: false
     filters:
       volume: true
@@ -49,19 +49,19 @@ lavalink:
       searchTriggersFail: true
       retryLimit: -1
       
-    # ENHANCED HTTP configuration for streaming services
+    # ENHANCED HTTP configuration specifically for DI.FM
     httpConfig:
       proxyHost: ""
       proxyPort: 0
       proxyUser: ""
       proxyPassword: ""
-      # Optimized for streaming services like DI.FM
-      connectTimeoutMs: 20000      # Increased for radio streams
-      connectionRequestTimeoutMs: 20000
-      socketTimeoutMs: 60000       # Increased for continuous streaming
-      maxRedirects: 10             # Allow redirects for radio streams
-      # User agent for better compatibility
-      userAgent: "Lavalink/4.0.8 (https://github.com/lavalink-devs/Lavalink)"
+      # Optimized for DI.FM streaming
+      connectTimeoutMs: 30000      # Increased for radio streams
+      connectionRequestTimeoutMs: 30000
+      socketTimeoutMs: 90000       # Increased for continuous streaming
+      maxRedirects: 10             # Allow redirects
+      # Better user agent for DI.FM compatibility
+      userAgent: "Lavalink/4.0.8 (compatible; DI.FM-Player)"
       
     youtubeConfig:
       email: ""
@@ -73,14 +73,12 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    # Optimized client rotation for better reliability
     clients:
       - MUSIC
       - WEB
       - ANDROID_TESTSUITE
       - WEB_REMIX
       - TVHTML5EMBEDDED
-    # Anti-bot detection countermeasures
     countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
 
 metrics:
@@ -97,7 +95,7 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    # Enable DEBUG for HTTP stream troubleshooting
+    # IMPORTANT: Enable DEBUG for HTTP stream troubleshooting
     com.sedmelluq.discord.lavaplayer.source.http: DEBUG
     # DI.FM specific logging
     com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager: DEBUG
