@@ -17,7 +17,6 @@ lavalink:
       vimeo: true
       http: true
       local: false
-      spotify: false
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
     youtubePlaylistLoadLimit: 6
@@ -29,14 +28,21 @@ lavalink:
 plugins:
   lavasrc:
     providers:
-      - "scsearch:%QUERY%"  # Prioritize SoundCloud
-      - "ytsearch:%QUERY%"   # YouTube fallback
+      - "scsearch:%QUERY%"
+      - "ytsearch:%QUERY%"
     sources:
-      spotify: false
+      spotify: true  # Enable Spotify
       applemusic: false
       deezer: false
       yandexmusic: false
       youtube: true
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID:}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET:}"
+      spDc: "${SPOTIFY_SP_DC:}"
+      countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
+    youtube:
+      countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
 
 metrics:
   prometheus:
@@ -49,3 +55,4 @@ logging:
   level:
     root: INFO
     lavalink: INFO
+    com.github.topi314.lavasrc: DEBUG  # Enable debug logging for lavasrc
