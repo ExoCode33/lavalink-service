@@ -13,20 +13,22 @@ spring:
 
 lavalink:
   plugins:
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
+    # Compatible LavaSrc version for Lavalink 4.0.8
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.8"
       repository: "https://maven.topi.wtf/releases"
-    - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
-      repository: "https://maven.topi.wtf/releases"
+    # YouTube Source plugin (required by LavaSrc)
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.7.2"
+      repository: "https://maven.lavalink.dev/releases"
 
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: true
+      # Disable built-in YouTube (we'll use the plugin)
+      youtube: false
       bandcamp: true
       soundcloud: true
       twitch: true
       vimeo: true
-      mixer: false
       http: true
       local: false
     filters:
@@ -51,20 +53,24 @@ lavalink:
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
-    ratelimit:
-      ipBlocks: []
-      excludedIps: []
-      strategy: "RotateOnBan"
-      searchTriggersFail: true
-      retryLimit: -1
-    youtubeConfig:
-      email: ""
-      password: ""
 
 plugins:
+  # YouTube Source Plugin Configuration
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - MUSIC
+      - WEB
+      - ANDROID_TESTSUITE
+      - TVHTML5EMBEDDED
+
+  # LavaSrc Plugin Configuration
   lavasrc:
     providers:
-      - "ytsearch:%ISRC%"
+      - "ytsearch:\"%ISRC%\""
       - "ytsearch:%QUERY%"
       - "scsearch:%QUERY%"
     sources:
@@ -86,23 +92,18 @@ plugins:
 metrics:
   prometheus:
     enabled: false
-    endpoint: /metrics
 
 sentry:
   dsn: ""
-  environment: ""
 
 logging:
   level:
     root: INFO
-    lavalink: DEBUG
+    lavalink: INFO
     com.sedmelluq.discord.lavaplayer: DEBUG
     com.sedmelluq.discord.lavaplayer.source: DEBUG
-    com.sedmelluq.discord.lavaplayer.source.youtube: DEBUG
-    com.sedmelluq.discord.lavaplayer.source.soundcloud: DEBUG
+    dev.lavalink.youtube: DEBUG
     com.github.topi314.lavasrc: DEBUG
-  pattern:
-    console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"
   logback:
     rollingpolicy:
       max-file-size: 25MB
