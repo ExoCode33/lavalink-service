@@ -13,6 +13,7 @@ lavalink:
       vimeo: true
       http: true
       local: false
+      spotify: true # Enable Spotify
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
     youtubePlaylistLoadLimit: 6
@@ -22,11 +23,21 @@ lavalink:
     gc-warnings: false
 
 plugins:
-  youtube:
-    enabled: true
-    allowSearch: true
-    allowDirectVideoIds: true
-    allowDirectPlaylistIds: true
+  lavasrc:
+    providers:
+      - "ytsearch:\"%ISRC%\"" # Will fallback to YouTube search
+      - "ytsearch:%QUERY%"
+    sources:
+      spotify: true
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+    spotify:
+      clientId: "${SPOTIFY_CLIENT_ID}"
+      clientSecret: "${SPOTIFY_CLIENT_SECRET}"
+      countryCode: "US"
+      playlistLoadLimit: 50
+      albumLoadLimit: 50
 
 metrics:
   prometheus:
