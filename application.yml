@@ -3,6 +3,10 @@ server:
   address: 0.0.0.0
 
 lavalink:
+  plugins:
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:3.2.2"
+      repository: "https://maven.lavalink.dev/releases"
+
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
@@ -13,7 +17,7 @@ lavalink:
       vimeo: true
       http: true
       local: false
-      spotify: false
+      spotify: false # Handled by lavasrc
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
     opusEncodingQuality: 10
@@ -26,6 +30,19 @@ lavalink:
     soundcloudSearchEnabled: true
     gc-warnings: false
 
+plugins:
+  lavasrc:
+    providers:
+      - "ytsearch:\"%ISRC%\""
+      - "ytsearch:%QUERY%"
+      - "scsearch:%QUERY%"
+    sources:
+      spotify: false # Disable to avoid token errors
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+      youtube: true
+
 metrics:
   prometheus:
     enabled: false
@@ -37,3 +54,4 @@ logging:
   level:
     root: INFO
     lavalink: INFO
+    com.github.topi314.lavasrc: DEBUG
