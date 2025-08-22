@@ -27,11 +27,9 @@ lavalink:
 
 plugins:
   lavasrc:
-    providers:
-      - "scsearch:%QUERY%"
-      - "ytsearch:%QUERY%"
+    providers: # This is the key fix - remove the custom providers
     sources:
-      spotify: true  # Enable Spotify
+      spotify: true
       applemusic: false
       deezer: false
       yandexmusic: false
@@ -55,4 +53,4 @@ logging:
   level:
     root: INFO
     lavalink: INFO
-    com.github.topi314.lavasrc: DEBUG  # Enable debug logging for lavasrc
+    com.github.topi314.lavasrc: DEBUG
