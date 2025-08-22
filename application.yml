@@ -1,10 +1,18 @@
 server:
   port: 2333
   address: 0.0.0.0
+  http2:
+    enabled: false
 
 lavalink:
+  plugins:
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.2.0"
+      repository: "https://maven.lavalink.dev/releases"
+    - dependency: "com.github.topi314.lavalyrics:lavalyrics-plugin:1.0.0"
+      repository: "https://maven.lavalink.dev/releases"
+
   server:
-    password: "UtaUtaDj"
+    password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
       youtube: true
       bandcamp: true
@@ -13,40 +21,110 @@ lavalink:
       vimeo: true
       http: true
       local: false
-      spotify: true # Enable Spotify
+      spotify: false # Handled by lavasrc plugin instead
+    filters:
+      volume: true
+      equalizer: true
+      karaoke: true
+      timescale: true
+      tremolo: true
+      vibrato: true
+      distortion: true
+      rotation: true
+      channelMix: true
+      lowPass: true
     bufferDurationMs: 400
     frameBufferDurationMs: 5000
+    opusEncodingQuality: 10
+    resamplingQuality: LOW
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
     youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
+    ratelimit:
+      ipBlocks: ["1.0.0.0/8", "127.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "fd00::/8"]
+      excludedIps: ["127.0.0.1", "::1"]
+      strategy: "RotateOnBan"
+      searchTriggersFail: true
+      retryLimit: -1
+    youtubeConfig:
+      email: "" # Leave empty for no login
+      password: "" # Leave empty for no login
+      PAPISID: "" # Optional: Get from browser cookies for better success rate
+      PSID: "" # Optional: Get from browser cookies for better success rate
 
 plugins:
   lavasrc:
     providers:
-      - "ytsearch:\"%ISRC%\"" # Will fallback to YouTube search
+      - "ytsearch:\"%ISRC%\""
       - "ytsearch:%QUERY%"
+      - "scsearch:%QUERY%"
     sources:
       spotify: true
-      applemusic: false
-      deezer: false
+      applemusic: true
+      deezer: true
       yandexmusic: false
+      flowerytts: false
+      youtube: true
+    clients:
+      - MUSIC
+      - WEB
+      - TVHTML5EMBEDDED
     spotify:
       clientId: "${SPOTIFY_CLIENT_ID}"
       clientSecret: "${SPOTIFY_CLIENT_SECRET}"
-      countryCode: "US"
+      spDc: "${SPOTIFY_SP_DC:}"
+      countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
       playlistLoadLimit: 50
       albumLoadLimit: 50
+    applemusic:
+      countryCode: "${APPLE_MUSIC_COUNTRY_CODE:US}"
+      mediaAPIToken: "${APPLE_MUSIC_API_TOKEN:}"
+      playlistLoadLimit: 50
+      albumLoadLimit: 50
+    deezer:
+      masterDecryptionKey: "${DEEZER_MASTER_KEY:}"
+    yandexmusic:
+      accessToken: "${YANDEX_MUSIC_TOKEN:}"
+    youtube:
+      countryCode: "${YOUTUBE_COUNTRY_CODE:US}"
+      clients:
+        - MUSIC
+        - WEB
+        - TVHTML5EMBEDDED
+
+  lavalyrics:
+    sources:
+      spotify: true
+      deezer: true
+      youtube: false
+      yandexMusic: false
 
 metrics:
   prometheus:
     enabled: false
+    endpoint: /metrics
 
 sentry:
   dsn: ""
+  environment: ""
 
 logging:
   level:
     root: INFO
     lavalink: INFO
+    com.github.topi314.lavasrc: DEBUG
+  logback:
+    rollingpolicy:
+      max-file-size: 25MB
+      max-history: 30
+  request:
+    enabled: true
+    includeClientInfo: true
+    includeHeaders: false
+    includeQueryString: true
+    includePayload: true
+    maxPayloadLength: 10000
