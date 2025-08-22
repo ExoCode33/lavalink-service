@@ -11,7 +11,7 @@ lavalink:
       soundcloud: true  # ✅ ENABLED - SoundCloud support
       twitch: false
       vimeo: false
-      http: true
+      http: true  # ✅ CRITICAL - Required for DI.FM streams
       local: false
     filters:
       volume: true
@@ -33,24 +33,28 @@ lavalink:
     soundcloudSearchEnabled: true  # ✅ ENABLED - SoundCloud search
     gc-warnings: false
     useSeekGhosting: true
-    # Enhanced HTTP streaming configuration for better stability
+    # ✅ ENHANCED: HTTP configuration for radio streams
     httpConfig:
       proxyHost: ""
       proxyPort: 0
       proxyUser: ""
       proxyPassword: ""
-      # ✅ ADDED: Connection timeout settings
       connectionTimeout: 30000
       readTimeout: 60000
 
-# ✅ ADDED: Connection keep-alive settings
+# ✅ ADDED: Plugins configuration for Lavalink v4
 plugins:
-  # YouTube source plugin for better reliability
   youtube:
     enabled: true
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
+    # ✅ ADDED: Better YouTube configuration
+    clients:
+      - MUSIC
+      - WEB
+      - ANDROID
+      - TVHTML5EMBEDDED
 
 # ✅ ENHANCED: Better metrics and monitoring
 metrics:
@@ -67,9 +71,9 @@ logging:
     root: INFO
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    com.sedmelluq.discord.lavaplayer.source.http: INFO
+    com.sedmelluq.discord.lavaplayer.source.http: DEBUG  # ✅ DEBUG HTTP for radio streams
     # ✅ ADDED: Better WebSocket logging
-    io.undertow.websockets: DEBUG
+    io.undertow.websockets: INFO
   logback:
     rollingpolicy:
       max-file-size: 25MB
