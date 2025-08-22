@@ -10,7 +10,7 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: true
+      youtube: true      # ✅ CRITICAL: This must be enabled for LavaSrc to work
       bandcamp: true
       soundcloud: true
       twitch: true
@@ -32,7 +32,7 @@ lavalink:
     frameBufferDurationMs: 5000
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
-    youtubeSearchEnabled: true
+    youtubeSearchEnabled: true    # ✅ CRITICAL: This must be true
     soundcloudSearchEnabled: true
     gc-warnings: false
     trackStuckThresholdMs: 10000
@@ -41,20 +41,20 @@ lavalink:
 plugins:
   lavasrc:
     providers:
-      - "scsearch:%QUERY%"
-      - "ytsearch:%QUERY%"
+      - "ytsearch:%QUERY%"     # ✅ YouTube search first
+      - "scsearch:%QUERY%"     # ✅ SoundCloud search second
     sources:
       spotify: true
       applemusic: false
       deezer: false
       yandexmusic: false
       flowerytts: false
-      youtube: true
+      youtube: true            # ✅ CRITICAL: Must match server.sources.youtube
       soundcloud: true
     spotify:
       clientId: "${SPOTIFY_CLIENT_ID:c4d02b672c154189a2bc9401297873e5}"
       clientSecret: "${SPOTIFY_CLIENT_SECRET:5ff525521dba448b9cd6c1638010b783}"
-      countryCode: "US"
+      countryCode: "${SPOTIFY_COUNTRY_CODE:US}"
       playlistLoadLimit: 10
       albumLoadLimit: 10
     soundcloud:
