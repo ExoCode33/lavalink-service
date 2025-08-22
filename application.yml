@@ -6,12 +6,13 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: true  # ✅ ENABLED - YouTube support
-      bandcamp: true  # ✅ ENABLED - Better compatibility
-      soundcloud: true  # ✅ ENABLED - SoundCloud support
+      # CRITICAL: HTTP source must be enabled for radio streams
+      http: true
+      youtube: true
+      soundcloud: true
+      bandcamp: true
       twitch: false
       vimeo: false
-      http: true  # ✅ CRITICAL - Required for DI.FM streams
       local: false
     filters:
       volume: true
@@ -29,62 +30,36 @@ lavalink:
     trackStuckThresholdMs: 10000
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
-    youtubeSearchEnabled: true  # ✅ ENABLED - YouTube search
-    soundcloudSearchEnabled: true  # ✅ ENABLED - SoundCloud search
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
     gc-warnings: false
     useSeekGhosting: true
-    # ✅ ENHANCED: HTTP configuration for radio streams
+    # HTTP configuration for radio streams
     httpConfig:
       proxyHost: ""
       proxyPort: 0
       proxyUser: ""
       proxyPassword: ""
-      connectionTimeout: 30000
-      readTimeout: 60000
 
-# ✅ ADDED: Plugins configuration for Lavalink v4
-plugins:
-  youtube:
-    enabled: true
-    allowSearch: true
-    allowDirectVideoIds: true
-    allowDirectPlaylistIds: true
-    # ✅ ADDED: Better YouTube configuration
-    clients:
-      - MUSIC
-      - WEB
-      - ANDROID
-      - TVHTML5EMBEDDED
+# Plugins configuration
+plugins: {}
 
-# ✅ ENHANCED: Better metrics and monitoring
+# Metrics
 metrics:
   prometheus:
     enabled: false
-    endpoint: /metrics
 
 sentry:
   dsn: ""
 
-# ✅ IMPROVED: More detailed logging for debugging
+# Enhanced logging to debug HTTP issues
 logging:
   level:
     root: INFO
-    lavalink: INFO
-    com.sedmelluq.discord.lavaplayer: INFO
-    com.sedmelluq.discord.lavaplayer.source.http: DEBUG  # ✅ DEBUG HTTP for radio streams
-    # ✅ ADDED: Better WebSocket logging
-    io.undertow.websockets: INFO
+    lavalink: DEBUG
+    com.sedmelluq.discord.lavaplayer: DEBUG
+    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
   logback:
     rollingpolicy:
       max-file-size: 25MB
       max-history: 8
-
-# ✅ ADDED: JVM settings for better memory management
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "health,info"
-  endpoint:
-    health:
-      show-details: always
