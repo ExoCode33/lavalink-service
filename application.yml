@@ -4,13 +4,13 @@ server:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.7.2"
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.0"
       repository: "https://maven.lavalink.dev/releases"
 
   server:
     password: "${LAVALINK_PASSWORD:UtaUtaDj}"
     sources:
-      youtube: false  # Disabled - handled by plugin
+      youtube: true
       bandcamp: true
       soundcloud: true
       twitch: true
@@ -22,25 +22,21 @@ lavalink:
     frameBufferDurationMs: 5000
     youtubePlaylistLoadLimit: 6
     playerUpdateInterval: 5
-    youtubeSearchEnabled: false  # Disabled - handled by plugin
+    youtubeSearchEnabled: true
     soundcloudSearchEnabled: true
     gc-warnings: false
 
 plugins:
-  youtube:
-    enabled: true
-    allowSearch: true
-    allowDirectVideoIds: true
-    allowDirectPlaylistIds: true
-    # Multiple clients for better anti-bot bypass
-    clients:
-      - MUSIC
-      - ANDROID_TESTSUITE
-      - WEB
-      - TVHTML5EMBEDDED
-    # Optional: YouTube cookies for better success rate
-    # DELEGATED_SESSION_ID: "${YOUTUBE_DELEGATED_SESSION_ID:}"
-    # VISITOR_DATA: "${YOUTUBE_VISITOR_DATA:}"
+  lavasrc:
+    providers:
+      - "scsearch:%QUERY%"  # Prioritize SoundCloud
+      - "ytsearch:%QUERY%"   # YouTube fallback
+    sources:
+      spotify: false
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+      youtube: true
 
 metrics:
   prometheus:
@@ -53,4 +49,3 @@ logging:
   level:
     root: INFO
     lavalink: INFO
-    dev.lavalink.youtube: DEBUG
