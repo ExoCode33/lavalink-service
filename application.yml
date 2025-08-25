@@ -17,7 +17,7 @@ lavalink:
       twitch: false
       vimeo: false
       mixer: false
-      http: true  # ESSENTIAL: Enable HTTP for DI.FM streams
+      http: true  # ESSENTIAL: Enable HTTP for radio streams
       local: false
     filters:
       volume: true
@@ -30,17 +30,17 @@ lavalink:
       rotation: true
       channelMix: true
       lowPass: true
-    bufferDurationMs: 400
-    frameBufferDurationMs: 5000
-    trackStuckThresholdMs: 10000
+    bufferDurationMs: 2000    # INCREASED: Better for radio streams
+    frameBufferDurationMs: 8000  # INCREASED: Prevent audio drops
+    trackStuckThresholdMs: 15000  # INCREASED: More patience for radio
     playerUpdateInterval: 5
     youtubeSearchEnabled: false  # Disabled - handled by YouTube plugin
     soundcloudSearchEnabled: true
     gc-warnings: false
     
-    # Resume configuration for better reliability
-    resumeKey: "${LAVALINK_RESUME_KEY:uta-dj-bot-railway}"
-    resumeTimeout: ${LAVALINK_RESUME_TIMEOUT:60}
+    # Resume configuration for better reliability - FIXED KEYS
+    resumeKey: "${LAVALINK_RESUME_KEY:uta-dj-bot-railway-v2}"
+    resumeTimeout: ${LAVALINK_RESUME_TIMEOUT:120}  # INCREASED timeout
     
     ratelimit:
       ipBlocks: []
@@ -49,19 +49,19 @@ lavalink:
       searchTriggersFail: true
       retryLimit: -1
       
-    # ENHANCED HTTP configuration specifically for DI.FM
+    # ENHANCED HTTP configuration - FIXED FOR RADIO STREAMS
     httpConfig:
       proxyHost: ""
       proxyPort: 0
       proxyUser: ""
       proxyPassword: ""
-      # Optimized for DI.FM streaming
-      connectTimeoutMs: 30000      # Increased for radio streams
-      connectionRequestTimeoutMs: 30000
-      socketTimeoutMs: 90000       # Increased for continuous streaming
-      maxRedirects: 10             # Allow redirects
-      # Better user agent for DI.FM compatibility
-      userAgent: "Lavalink/4.0.8 (compatible; DI.FM-Player)"
+      # Radio stream optimized settings
+      connectTimeoutMs: 20000      # Reduced but reasonable
+      connectionRequestTimeoutMs: 20000
+      socketTimeoutMs: 60000       # Radio streams need longer socket timeout
+      maxRedirects: 8              # Allow reasonable redirects
+      # Better user agent for compatibility
+      userAgent: "Lavalink/4.0.8 (UTA-DJ-Bot; +https://github.com/utabot)"
       
     youtubeConfig:
       email: ""
@@ -92,23 +92,22 @@ sentry:
 
 logging:
   level:
-    root: INFO
+    root: WARN              # REDUCED: Less noise in logs
     lavalink: INFO
     com.sedmelluq.discord.lavaplayer: INFO
-    # IMPORTANT: Enable DEBUG for HTTP stream troubleshooting
-    com.sedmelluq.discord.lavaplayer.source.http: DEBUG
-    # DI.FM specific logging
-    com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager: DEBUG
+    # HTTP stream debugging - ONLY when needed
+    com.sedmelluq.discord.lavaplayer.source.http: INFO  # Changed from DEBUG
+    com.sedmelluq.discord.lavaplayer.source.http.HttpAudioSourceManager: INFO
 
   request:
     enabled: true
-    includeClientInfo: true
+    includeClientInfo: false   # REDUCED: Less log spam
     includeHeaders: false
-    includeQueryString: true
-    includePayload: true
-    maxPayloadLength: 10000
+    includeQueryString: false  # REDUCED: Less log spam
+    includePayload: false      # REDUCED: Less log spam
+    maxPayloadLength: 1000     # REDUCED: Less log spam
 
   logback:
     rollingpolicy:
-      max-file-size: 25MB
-      max-history: 8
+      max-file-size: 10MB      # REDUCED: Save disk space on Railway
+      max-history: 3           # REDUCED: Save disk space
